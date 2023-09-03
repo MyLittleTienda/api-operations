@@ -30,21 +30,17 @@ public class SimpleStateMachineConfiguration extends StateMachineConfigurerAdapt
         transitions.withExternal()
                    .source(OperationState.PENDING)
                    .target(OperationState.IN_PROCESS)
-                   .event(OperationEvent.EXECUTE)
                    .and()
                    .withExternal()
                    .source(OperationState.PENDING)
                    .target(OperationState.REJECTED)
-                   .event(OperationEvent.REJECT)
                    .and()
                    .withExternal()
                    .source(OperationState.IN_PROCESS)
                    .target(OperationState.APPROVED)
-                   .event(OperationEvent.APPROVE)
                    .and()
                    .withExternal()
                    .source(OperationState.IN_PROCESS)
-                   .target(OperationState.CANCELED)
-                   .event(OperationEvent.CANCEL);
+                   .target(OperationState.CANCELED);
     }
 }

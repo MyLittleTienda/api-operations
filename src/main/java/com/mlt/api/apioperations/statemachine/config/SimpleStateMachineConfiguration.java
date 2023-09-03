@@ -83,7 +83,7 @@ public abstract class SimpleStateMachineConfiguration {
         transitions.withExternal()
                    .source(OperationState.PENDING)
                    .target(OperationState.VALIDATING)
-                   .event(OperationEvent.VALIDATE)
+                   .event(OperationEvent.INIT)
                    .action(actionPendingToValidating())
                    .guard(guardPendingToValidating())
                    .and()

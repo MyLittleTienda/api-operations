@@ -31,7 +31,8 @@ public class OperationTransitionModel implements Serializable {
     private Long id;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "operation_id")

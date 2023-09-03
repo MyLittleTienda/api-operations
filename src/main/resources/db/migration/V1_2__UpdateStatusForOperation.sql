@@ -1,0 +1,1 @@
+INSERT INTO operation_status (description) value ('validating');

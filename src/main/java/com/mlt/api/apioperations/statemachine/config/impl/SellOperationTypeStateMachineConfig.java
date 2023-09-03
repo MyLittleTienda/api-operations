@@ -1,7 +1,6 @@
 package com.mlt.api.apioperations.statemachine.config.impl;
 
 import com.mlt.api.apioperations.domain.operation.Operation;
-import com.mlt.api.apioperations.domain.operation.OperationTransition;
 import com.mlt.api.apioperations.statemachine.config.SimpleStateMachineConfiguration;
 import com.mlt.api.apioperations.statemachine.enums.OperationEvent;
 import com.mlt.api.apioperations.statemachine.enums.OperationState;
@@ -25,13 +24,8 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         return (ctx) ->
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
-            if (Objects.nonNull(operation)) {
-                operation.addState(OperationTransition.builder()
-                                                      .from(ctx.getTransition().getSource().getId())
-                                                      .to(ctx.getTarget().getId())
-                                                      .build());
-            }
-            log.info(ctx.getStateMachine().getState().toString());
+            changeOperationState(operation, ctx.getTransition().getTarget().getId());
+            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -45,13 +39,8 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         return (ctx) ->
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
-            if (Objects.nonNull(operation)) {
-                operation.addState(OperationTransition.builder()
-                                                      .from(ctx.getTransition().getSource().getId())
-                                                      .to(ctx.getTarget().getId())
-                                                      .build());
-            }
-            log.info(ctx.getStateMachine().getState().toString());
+            changeOperationState(operation, ctx.getTransition().getTarget().getId());
+            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -65,13 +54,8 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         return (ctx) ->
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
-            if (Objects.nonNull(operation)) {
-                operation.addState(OperationTransition.builder()
-                                                      .from(ctx.getTransition().getSource().getId())
-                                                      .to(ctx.getTarget().getId())
-                                                      .build());
-            }
-            log.info(ctx.getStateMachine().getState().toString());
+            changeOperationState(operation, ctx.getTransition().getTarget().getId());
+            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -85,13 +69,8 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         return (ctx) ->
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
-            if (Objects.nonNull(operation)) {
-                operation.addState(OperationTransition.builder()
-                                                      .from(ctx.getTransition().getSource().getId())
-                                                      .to(ctx.getTarget().getId())
-                                                      .build());
-            }
-            log.info(ctx.getStateMachine().getState().toString());
+            changeOperationState(operation, ctx.getTransition().getTarget().getId());
+            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -105,19 +84,20 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         return (ctx) ->
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
-            if (Objects.nonNull(operation)) {
-                operation.addState(OperationTransition.builder()
-                                                      .from(ctx.getTransition().getSource().getId())
-                                                      .to(ctx.getTarget().getId())
-                                                      .build());
-            }
-            log.info(ctx.getStateMachine().getState().toString());
+            changeOperationState(operation, ctx.getTransition().getTarget().getId());
+            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
     @Override
     protected Guard<OperationState, OperationEvent> guardInProcessToCanceled() {
         return (ctx) -> false;
+    }
+
+    private void changeOperationState(Operation operation, OperationState state) {
+        if (Objects.nonNull(operation)) {
+            operation.changeState(state);
+        }
     }
 
 }

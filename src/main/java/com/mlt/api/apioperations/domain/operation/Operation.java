@@ -1,77 +1,60 @@
 package com.mlt.api.apioperations.domain.operation;
 
+import com.mlt.api.apioperations.domain.dto.request.SellShoppingCartRequest;
 import com.mlt.api.apioperations.model.OperationModel;
+import com.mlt.api.apioperations.model.OperationStatusModel;
+import com.mlt.api.apioperations.model.OperationTransitionModel;
+import com.mlt.api.apioperations.repository.OperationRepository;
+import com.mlt.api.apioperations.repository.OperationStatusRepository;
 import com.mlt.api.apioperations.statemachine.enums.OperationEvent;
 import com.mlt.api.apioperations.statemachine.enums.OperationState;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@RequiredArgsConstructor
+@Builder
 public class Operation {
 
     private final StateMachine<OperationState, OperationEvent> stateMachine;
     private final OperationModel operationModel;
-    private List<OperationTransition> states;
+    private final OperationRepository operationRepository;
+    private final OperationStatusRepository operationStatusRepository;
 
-    private Operation(StateMachine<OperationState, OperationEvent> stateMachine, OperationModel operationModel) {
-        this.stateMachine = stateMachine;
-        this.operationModel = operationModel;
-        this.states = new ArrayList<>();
+    public void sellShoppingCart(SellShoppingCartRequest request) {
+        operationModel.setShoppingCartCode(request.getShoppingCartCode());
     }
 
     public void operate() {
         stateMachine.startReactively().subscribe();
-        stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(OperationEvent.VALIDATE)
+        stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(OperationEvent.INIT)
                                                        .setHeader("OPERATION", this)
                                                        .build())).subscribe();
     }
 
-    public OperationModel getOperation() {
+    public OperationModel getModel() {
         return this.operationModel;
     }
 
-    public void addState(OperationTransition state) {
-        this.states.add(state);
-    }
+    public void changeState(OperationState to) {
+        LocalDateTime now = LocalDateTime.now();
+        OperationStatusModel toStatus = operationStatusRepository.findByDescriptionIgnoreCase(to.name())
+                                                                 .orElseThrow(() -> new IllegalArgumentException(to.name()));
+        OperationTransitionModel transition = OperationTransitionModel.builder()
+                                                                      .fromStatus(operationModel.getOperationStatus())
+                                                                      .toStatus(toStatus)
+                                                                      .operation(operationModel)
+                                                                      .createdAt(now)
+                                                                      .build();
+        operationModel.setUpdatedAt(now);
+        operationModel.addTransition(transition);
+        operationModel.setOperationStatus(toStatus);
 
-
-    public static Builder builder(StateMachine<OperationState, OperationEvent> stateMachine) {
-
-        return new Builder(stateMachine);
-    }
-
-    public static Builder builder(
-            StateMachine<OperationState, OperationEvent> stateMachine,
-            OperationModel operationModel
-    ) {
-        return new Builder(stateMachine, operationModel);
-    }
-
-    public static class Builder {
-        private final StateMachine<OperationState, OperationEvent> stateMachine;
-        private final OperationModel operationModel;
-
-
-        public Builder(StateMachine<OperationState, OperationEvent> stateMachine) {
-            this.stateMachine = stateMachine;
-            this.operationModel = OperationModel.builder().build();
-        }
-
-        public Builder(StateMachine<OperationState, OperationEvent> stateMachine, OperationModel operationModel) {
-            this.stateMachine = stateMachine;
-            this.operationModel = operationModel;
-        }
-
-        public Operation build() {
-            return new Operation(stateMachine, operationModel);
-        }
+        operationRepository.save(operationModel);
     }
 
 }

@@ -19,7 +19,7 @@ public class OperationStateMachineFactoryImpl implements OperationStateMachineFa
     public StateMachine<OperationState, OperationEvent> create(OperationTypeEnum type) {
         try {
             return switch (type) {
-                case SELL -> sellOperationTypeStateMachineConfig.create();
+                case SALE -> sellOperationTypeStateMachineConfig.create();
                 default -> throw new RuntimeException("Operation type not supported");
             };
         } catch (Exception e) {
