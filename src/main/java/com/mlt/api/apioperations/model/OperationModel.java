@@ -62,4 +62,9 @@ public class OperationModel implements Serializable {
     public void addTransition(OperationTransitionModel transition) {
         this.transitions.add(transition);
     }
+
+    public void addDetail(OperationDetailModel detail) {
+        this.details.add(detail);
+    }
+
 }

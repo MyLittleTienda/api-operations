@@ -25,7 +25,6 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
             changeOperationState(operation, ctx.getTransition().getTarget().getId());
-            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -40,7 +39,6 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
             changeOperationState(operation, ctx.getTransition().getTarget().getId());
-            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -55,7 +53,6 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
             changeOperationState(operation, ctx.getTransition().getTarget().getId());
-            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -70,7 +67,6 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
             changeOperationState(operation, ctx.getTransition().getTarget().getId());
-            log.info(operation.getModel().getTransitions().toString());
         };
     }
 
@@ -85,7 +81,6 @@ public class SellOperationTypeStateMachineConfig extends SimpleStateMachineConfi
         {
             Operation operation = ctx.getMessage().getHeaders().get("OPERATION", Operation.class);
             changeOperationState(operation, ctx.getTransition().getTarget().getId());
-            log.info(operation.getModel().getTransitions().toString());
         };
     }
 

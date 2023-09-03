@@ -1,6 +1,7 @@
 package com.mlt.api.apioperations.domain.operation;
 
 import com.mlt.api.apioperations.domain.dto.request.SellShoppingCartRequest;
+import com.mlt.api.apioperations.model.OperationDetailModel;
 import com.mlt.api.apioperations.model.OperationModel;
 import com.mlt.api.apioperations.model.OperationStatusModel;
 import com.mlt.api.apioperations.model.OperationTransitionModel;
@@ -27,17 +28,18 @@ public class Operation {
 
     public void sellShoppingCart(SellShoppingCartRequest request) {
         operationModel.setShoppingCartCode(request.getShoppingCartCode());
-    }
-
-    public void operate() {
-        stateMachine.startReactively().subscribe();
-        stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(OperationEvent.INIT)
-                                                       .setHeader("OPERATION", this)
-                                                       .build())).subscribe();
-    }
-
-    public OperationModel getModel() {
-        return this.operationModel;
+        request.getProducts().forEach(p -> {
+            OperationDetailModel detail = OperationDetailModel.builder()
+                                                              .createdAt(LocalDateTime.now())
+                                                              .operation(operationModel)
+                                                              .price(p.getPrice())
+                                                              .productCode(p.getProductCode())
+                                                              .quantity(p.getQuantity())
+                                                              .build();
+            operationModel.addDetail(detail);
+        });
+        operationRepository.save(operationModel);
+        operate();
     }
 
     public void changeState(OperationState to) {
@@ -55,6 +57,13 @@ public class Operation {
         operationModel.setOperationStatus(toStatus);
 
         operationRepository.save(operationModel);
+    }
+
+    private void operate() {
+        stateMachine.startReactively().subscribe();
+        stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(OperationEvent.INIT)
+                                                       .setHeader("OPERATION", this)
+                                                       .build())).subscribe();
     }
 
 }

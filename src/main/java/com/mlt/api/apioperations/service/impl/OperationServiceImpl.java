@@ -19,7 +19,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void sellShoppingCart(SellShoppingCartRequest request) {
         Operation operation = operationFactory.create(OperationTypeEnum.SALE);
-        operation.operate();
+        operation.sellShoppingCart(request);
         log.info(operation.toString());
     }
 }

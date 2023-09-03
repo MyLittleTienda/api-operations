@@ -70,6 +70,8 @@ public class SellOperationTypeFactory implements OperationFactory {
                              .createdAt(LocalDateTime.now())
                              .updatedAt(LocalDateTime.now())
                              .transitions(new ArrayList<>())
+                             .details(new ArrayList<>())
+                             .operationFor(operationFor)
                              .build();
     }
 }
