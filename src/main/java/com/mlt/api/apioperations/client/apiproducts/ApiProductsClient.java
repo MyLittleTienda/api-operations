@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient
+@FeignClient(name = "products", url = "https://api-products-dot-mlt-api-products.rj.r.appspot.com")
 public interface ApiProductsClient {
 
     @GetMapping("/api/v1/products")

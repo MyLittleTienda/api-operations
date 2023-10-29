@@ -1,7 +1,20 @@
 spring:
   application:
     name: api-operations
-  profiles:
-    active: local
-  config:
-    import: configserver:http://localhost:8888
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///mlt-operations?cloudSqlInstance=my-little-tienda:us-central1:mlt-db&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=mlt-db&password=mlt-db
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace

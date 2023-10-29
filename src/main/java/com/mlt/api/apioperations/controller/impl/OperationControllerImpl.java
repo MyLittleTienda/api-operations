@@ -14,7 +14,7 @@ public class OperationControllerImpl implements OperationController {
 
     @Override
     public void sellShoppingCart(SellShoppingCartRequest request) {
-        operationService.sellShoppingCart(request);
+        operationService.sellShoppingCart(request); 
     }
 
 }
