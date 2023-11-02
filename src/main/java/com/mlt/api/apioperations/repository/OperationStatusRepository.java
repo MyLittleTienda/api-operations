@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface OperationStatusRepository extends JpaRepository<OperationStatusModel, Long> {
+public interface OperationStatusRepository extends JpaRepository<OperationStatusModel, Integer> {
 
     Optional<OperationStatusModel> findByDescriptionIgnoreCase(String description);
 

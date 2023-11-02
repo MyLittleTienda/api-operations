@@ -23,26 +23,27 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "operation_transition")
+@Table(name = "OPERATION_TRANSITION")
 public class OperationTransitionModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "created_at")
+    @Column(name = "CREATED_AT")
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "operation_id")
+    @JoinColumn(name = "OPERATION_ID")
     private OperationModel operation;
 
     @ManyToOne
-    @JoinColumn(name = "from_status_id")
+    @JoinColumn(name = "FROM_STATUS_ID")
     private OperationStatusModel fromStatus;
     @ManyToOne
-    @JoinColumn(name = "to_status_id")
+    @JoinColumn(name = "TO_STATUS_ID")
     private OperationStatusModel toStatus;
 
 

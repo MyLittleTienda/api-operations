@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      id: "master_mlt_operations"
+      file: mlt_operations/master.yaml
+      relativeToChangelogFile: true

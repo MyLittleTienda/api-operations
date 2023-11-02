@@ -27,31 +27,32 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "operation")
+@Table(name = "OPERATION")
 public class OperationModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "shopping_cart_code")
+    @Column(name = "SHOPPING_CART_CODE")
     private String shoppingCartCode;
 
-    @Column(name = "created_at")
+    @Column(name = "CREATED_AT")
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
-    @Column(name = "updated_at")
+    @Column(name = "UPDATED_AT")
     @Builder.Default
     private LocalDateTime updatedAt = LocalDateTime.now();
     @ManyToOne
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "TYPE_ID")
     private OperationTypeModel operationType;
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "STATUS_ID")
     private OperationStatusModel operationStatus;
 
     @OneToOne
-    @JoinColumn(name = "operation_id")
+    @JoinColumn(name = "OPERATION_ID")
     private OperationModel operationFor;
 
     @OneToMany(mappedBy = "operation", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})

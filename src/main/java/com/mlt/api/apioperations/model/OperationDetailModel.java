@@ -25,24 +25,25 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "operation_detail")
+@Table(name = "OPERATION_DETAIL")
 public class OperationDetailModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "product_code")
+    @Column(name = "PRODUCT_CODE")
     private String productCode;
-    @Column(name = "created_at")
+    @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
-    @Column(name = "quantity")
+    @Column(name = "QUANTITY")
     private Integer quantity;
-    @Column(name = "price")
+    @Column(name = "PRICE")
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "operation_id")
+    @JoinColumn(name = "OPERATION_ID")
     private OperationModel operation;
 
 }

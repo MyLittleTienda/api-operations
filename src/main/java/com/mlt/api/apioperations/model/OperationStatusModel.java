@@ -20,13 +20,14 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "operation_status")
+@Table(name = "OPERATION_STATUS")
 public class OperationStatusModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Integer id;
-    @Column(name = "description")
+    @Column(name = "DESCRIPTION")
     private String description;
 
 }
